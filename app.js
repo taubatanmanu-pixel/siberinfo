@@ -144,9 +144,22 @@ async function loadArticles() {
       .select('*')
       .order('created_at', { ascending: false })
       .limit(100);
-    
+
     if (error) throw error;
-    cache = data || [];
+    
+    // Transform snake_case ke camelCase
+    cache = (data || []).map(a => ({
+      id: a.id,
+      title: a.title,
+      category: a.category,
+      author: a.author,
+      image: a.image,
+      imageCredit: a.image_credit,
+      content: a.content,
+      views: a.views || 0,
+      createdAt: a.created_at,
+      updatedAt: a.updated_at,
+    }));
     cacheMode = 'supabase';
   } catch (e) {
     console.error('Gagal mengambil data dari Supabase:', e);
@@ -216,14 +229,28 @@ async function fetchArticle(id) {
   try {
     const { data, error } = await supabase.from('articles').select('*').eq('id', id).single();
     if (error || !data) return null;
-    
+
+    // Transform snake_case ke camelCase
+    const article = {
+      id: data.id,
+      title: data.title,
+      category: data.category,
+      author: data.author,
+      image: data.image,
+      imageCredit: data.image_credit,
+      content: data.content,
+      views: data.views || 0,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at,
+    };
+
     // Increment view counter
     await addView(id);
 
     // Perbarui cache agar data lain (trending, terkait) ikut terbarui
     const i = cache.findIndex((x) => x.id === id);
-    if (i >= 0) cache[i] = data; else cache.push(data);
-    return data;
+    if (i >= 0) cache[i] = article; else cache.push(article);
+    return article;
   } catch (e) {
     return cache.find((x) => x.id === id) || null;
   }
