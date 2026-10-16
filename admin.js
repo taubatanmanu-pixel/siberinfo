@@ -9,6 +9,9 @@ const ADMIN_CREDENTIALS = {
   password: 'admin123'
 };
 
+// Konfigurasi upload
+const MAX_FILE_MB = 2; // maksimal 2 MB
+
 // Helper: tunggu supabase client siap
 function getSupabase() {
   return new Promise((resolve, reject) => {
