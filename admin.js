@@ -9,6 +9,27 @@ const ADMIN_CREDENTIALS = {
   password: 'admin123'
 };
 
+// Helper: tunggu supabase client siap
+function getSupabase() {
+  return new Promise((resolve) => {
+    if (window.supabase && typeof window.supabase.from === 'function') {
+      resolve(window.supabase);
+    } else {
+      const check = setInterval(() => {
+        if (window.supabase && typeof window.supabase.from === 'function') {
+          clearInterval(check);
+          resolve(window.supabase);
+        }
+      }, 50);
+      // Timeout 10 detik
+      setTimeout(() => {
+        clearInterval(check);
+        reject(new Error('Supabase client tidak termuat dalam 10 detik'));
+      }, 10000);
+    }
+  });
+}
+
 // Panggilan API (Supabase untuk data, localStorage untuk auth)
 async function api(action, body) {
   // Autentikasi sederhana via localStorage
@@ -19,38 +40,41 @@ async function api(action, body) {
     }
     throw new Error('Username atau password salah.');
   }
-  
+
   if (action === 'logout') {
     localStorage.removeItem('siberinfo_admin');
     return { ok: true };
   }
-  
+
   if (action === 'me') {
     return { admin: localStorage.getItem('siberinfo_admin') === 'true' };
   }
 
+  // Aksi CRUD database (Supabase) - tunggu client siap
+  const sb = await getSupabase();
+
   // Aksi CRUD database (Supabase)
   if (action === 'articles&limit=100') {
-    const { data, error } = await supabase.from('articles').select('*').order('created_at', { ascending: false });
+    const { data, error } = await sb.from('articles').select('*').order('created_at', { ascending: false });
     if (error) throw error;
     return { items: data };
   }
-  
+
   if (action === 'save') {
     const { id, ...articleData } = body;
     const cleanData = Object.fromEntries(Object.entries(articleData).filter(([_, v]) => v !== undefined));
     if (id) {
-      const { error } = await supabase.from('articles').update(cleanData).eq('id', id);
+      const { error } = await sb.from('articles').update(cleanData).eq('id', id);
       if (error) throw error;
     } else {
-      const { error } = await supabase.from('articles').insert({ ...cleanData, id: Math.random().toString(36).substr(2, 9) });
+      const { error } = await sb.from('articles').insert({ ...cleanData, id: Math.random().toString(36).substr(2, 9) });
       if (error) throw error;
     }
     return { ok: true };
   }
-  
+
   if (action === 'delete') {
-    const { error } = await supabase.from('articles').delete().eq('id', body.id);
+    const { error } = await sb.from('articles').delete().eq('id', body.id);
     if (error) throw error;
     return { ok: true };
   }
@@ -60,6 +84,7 @@ async function api(action, body) {
 
 // Upload gambar ke Supabase Storage
 async function resolveImage() {
+  const sb = await getSupabase();
   const mode = document.querySelector('input[name="imageMode"]:checked').value;
   if (mode === 'url') return $('image-url').value.trim();
 
@@ -68,11 +93,11 @@ async function resolveImage() {
 
   const fileExt = file.name.split('.').pop();
   const fileName = `${Math.random().toString(36).substr(2, 12)}.${fileExt}`;
-  
-  const { error } = await supabase.storage.from('uploads').upload(fileName, file);
+
+  const { error } = await sb.storage.from('uploads').upload(fileName, file);
   if (error) throw error;
-  
-  const { data } = supabase.storage.from('uploads').getPublicUrl(fileName);
+
+  const { data } = sb.storage.from('uploads').getPublicUrl(fileName);
   return data.publicUrl;
 }
 
