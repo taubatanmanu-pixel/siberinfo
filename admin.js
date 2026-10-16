@@ -1,32 +1,35 @@
 /* ===== Siberinfo - admin.js =====
  * Logika login admin, form pembuatan & edit berita, dan hapus berita.
- * Data dan autentikasi menggunakan Supabase.
+ * Data menggunakan Supabase. Autentikasi admin sederhana (localStorage).
  */
 
-// Panggilan API (disesuaikan ke Supabase)
+// Kredensial admin (ubah password ini!)
+const ADMIN_CREDENTIALS = {
+  username: 'admin',
+  password: 'admin123'
+};
+
+// Panggilan API (Supabase untuk data, localStorage untuk auth)
 async function api(action, body) {
-  // Login/Logout di Supabase dilakukan via Auth
+  // Autentikasi sederhana via localStorage
   if (action === 'login') {
-    // Catatan: Supabase Auth memerlukan setup User di dashboard. 
-    // Untuk demo/mudah, kita bisa membandingkan manual atau setup Email/Password di Supabase.
-    // Di sini saya mengasumsikan Anda sudah setup user di Supabase Auth.
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: body.username + '@admin.siberinfo', 
-      password: body.password
-    });
-    if (error) throw error;
-    return data;
-  }
-  if (action === 'logout') {
-    await supabase.auth.signOut();
-    return { ok: true };
-  }
-  if (action === 'me') {
-    const { data } = await supabase.auth.getUser();
-    return { admin: !!data.user };
+    if (body.username === ADMIN_CREDENTIALS.username && body.password === ADMIN_CREDENTIALS.password) {
+      localStorage.setItem('siberinfo_admin', 'true');
+      return { ok: true };
+    }
+    throw new Error('Username atau password salah.');
   }
   
-  // Aksi CRUD database
+  if (action === 'logout') {
+    localStorage.removeItem('siberinfo_admin');
+    return { ok: true };
+  }
+  
+  if (action === 'me') {
+    return { admin: localStorage.getItem('siberinfo_admin') === 'true' };
+  }
+
+  // Aksi CRUD database (Supabase)
   if (action === 'articles&limit=100') {
     const { data, error } = await supabase.from('articles').select('*').order('created_at', { ascending: false });
     if (error) throw error;
@@ -35,7 +38,6 @@ async function api(action, body) {
   
   if (action === 'save') {
     const { id, ...articleData } = body;
-    // Bersihkan data dari undefined untuk Supabase
     const cleanData = Object.fromEntries(Object.entries(articleData).filter(([_, v]) => v !== undefined));
     if (id) {
       const { error } = await supabase.from('articles').update(cleanData).eq('id', id);
@@ -73,6 +75,7 @@ async function resolveImage() {
   const { data } = supabase.storage.from('uploads').getPublicUrl(fileName);
   return data.publicUrl;
 }
+
 
 let isAdmin = false;
 const MAX_IMAGE_WIDTH = 1200;
