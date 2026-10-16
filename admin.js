@@ -11,22 +11,22 @@ const ADMIN_CREDENTIALS = {
 
 // Helper: tunggu supabase client siap
 function getSupabase() {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     if (window.supabase && typeof window.supabase.from === 'function') {
       resolve(window.supabase);
-    } else {
-      const check = setInterval(() => {
-        if (window.supabase && typeof window.supabase.from === 'function') {
-          clearInterval(check);
-          resolve(window.supabase);
-        }
-      }, 50);
-      // Timeout 10 detik
-      setTimeout(() => {
-        clearInterval(check);
-        reject(new Error('Supabase client tidak termuat dalam 10 detik'));
-      }, 10000);
+      return;
     }
+    const check = setInterval(() => {
+      if (window.supabase && typeof window.supabase.from === 'function') {
+        clearInterval(check);
+        resolve(window.supabase);
+      }
+    }, 50);
+    // Timeout 10 detik
+    setTimeout(() => {
+      clearInterval(check);
+      reject(new Error('Supabase client tidak termuat dalam 10 detik. Cek koneksi internet / CSP.'));
+    }, 10000);
   });
 }
 
@@ -332,8 +332,9 @@ function cancelEdit() {
 
 /* ---------- Simpan berita (buat & edit) ---------- */
 
-// Mengembalikan URL gambar untuk disimpan: hasil upload file, URL dari input, atau '' (tidak diubah)
+// Mengembalikan URL gambar untuk disimpan: hasil upload file ke Supabase Storage, URL dari input, atau '' (tidak diubah)
 async function resolveImage() {
+  const sb = await getSupabase();
   const mode = document.querySelector('input[name="imageMode"]:checked').value;
   if (mode === 'url') return $('image-url').value.trim();
 
@@ -342,17 +343,14 @@ async function resolveImage() {
   if (!file.type.startsWith('image/')) throw new Error('File harus berupa gambar.');
   if (file.size > MAX_FILE_MB * 1024 * 1024) throw new Error(`Ukuran gambar maksimal ${MAX_FILE_MB} MB.`);
 
-  const form = new FormData();
-  form.append('file', file);
-  const res = await fetch('api/index.php?action=upload', {
-    method: 'POST',
-    headers: { 'X-Requested-With': 'siberinfo' },
-    body: form,
-    credentials: 'same-origin',
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || 'Gagal mengunggah gambar.');
-  return data.url;
+  const fileExt = file.name.split('.').pop();
+  const fileName = `${Math.random().toString(36).substr(2, 12)}.${fileExt}`;
+
+  const { error } = await sb.storage.from('uploads').upload(fileName, file);
+  if (error) throw error;
+
+  const { data } = sb.storage.from('uploads').getPublicUrl(fileName);
+  return data.publicUrl;
 }
 
 async function handleSubmit(e) {
@@ -372,15 +370,17 @@ async function handleSubmit(e) {
     const error = await validateForm();
     if (error) return showMsg(error);
 
-    // Gambar: upload file ke server (mendapat URL), atau URL yang diketik admin
+    // Gambar: upload file ke Supabase Storage, atau URL yang diketik admin
+    showMsg('Mengunggah gambar...', false);
     const newImage = await resolveImage();
 
+    showMsg('Menyimpan berita...', false);
     await api('save', {
       id: editingId || '',
       title,
       category,
       author,
-      image: newImage, // kosong = pertahankan gambar lama (saat edit)
+      image: newImage,
       content,
     });
 
@@ -392,7 +392,8 @@ async function handleSubmit(e) {
       false
     );
   } catch (err) {
-    showMsg(err.message || 'Terjadi kesalahan.');
+    console.error('handleSubmit error:', err);
+    showMsg(err.message || 'Terjadi kesalahan: ' + err);
   } finally {
     submitBtn.disabled = false;
   }
