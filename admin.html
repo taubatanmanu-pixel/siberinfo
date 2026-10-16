@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Security -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  
+  <title>Admin - Siberinfo</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' font-family='Georgia,serif' font-weight='900'%3ES%3C/text%3E%3Ccircle cx='82' cy='88' r='10' fill='%23dc2626'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS (lokal, hasil compile dari input.css) -->
+  <link rel="stylesheet" href="tailwind.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen flex flex-col bg-white text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100 font-sans antialiased">
+
+  <header class="border-b border-neutral-200 dark:border-neutral-800">
+    <div class="max-w-3xl mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="index.html" class="font-serif text-2xl font-black tracking-tight focus-ring">
+        Siberinfo<span class="text-red-600">.</span>
+      </a>
+      <span class="text-xs font-semibold uppercase tracking-widest text-neutral-500">Panel Admin</span>
+    </div>
+  </header>
+
+  <main class="flex-1 w-full max-w-3xl mx-auto px-4 py-10">
+
+    <!-- ===== LOGIN ===== -->
+    <section id="login-view" class="hidden page-enter max-w-sm mx-auto mt-12">
+      <h1 class="font-serif text-3xl font-bold">Masuk Admin</h1>
+      <p class="mt-2 text-sm text-neutral-500">Masuk untuk menulis dan mengelola berita.</p>
+
+      <form id="login-form" class="mt-8 space-y-5" novalidate>
+        <div>
+          <label for="username" class="block text-sm font-medium mb-1.5">Username</label>
+          <input id="username" type="text" autocomplete="username" required
+                 class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-transparent px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-red-600">
+        </div>
+        <div>
+          <label for="password" class="block text-sm font-medium mb-1.5">Password</label>
+          <input id="password" type="password" autocomplete="current-password" required
+                 class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-transparent px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-red-600">
+        </div>
+        <p id="login-error" class="hidden text-sm text-red-600">Username atau password salah.</p>
+        <button type="submit" class="w-full rounded-lg bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 py-2.5 font-medium hover:opacity-90 transition">
+          Masuk
+        </button>
+      </form>
+      <p class="mt-6 text-xs text-neutral-400">Demo: username <code>admin</code>, password <code>admin123</code></p>
+    </section>
+
+    <!-- ===== DASHBOARD ===== -->
+    <section id="dashboard-view" class="hidden page-enter">
+      <div class="flex items-center justify-between mb-8">
+        <h1 id="form-title" class="font-serif text-3xl font-bold">Tulis Berita Baru</h1>
+        <button id="logout-btn" type="button" class="text-sm font-medium text-neutral-500 hover:text-red-600 transition">Keluar</button>
+      </div>
+
+      <form id="article-form" class="space-y-6" novalidate>
+        <!-- Judul -->
+        <div>
+          <label for="title" class="block text-sm font-medium mb-1.5">Judul Berita <span class="text-red-600">*</span> <span id="title-count" class="float-right text-xs font-normal text-neutral-500"></span></label>
+          <input id="title" type="text" maxlength="150" placeholder="Tulis judul yang menarik..."
+                 class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-transparent px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-red-600">
+        </div>
+
+        <!-- Kategori & Penulis -->
+        <div class="grid sm:grid-cols-2 gap-6">
+          <div>
+            <label for="category" class="block text-sm font-medium mb-1.5">Kategori</label>
+            <select id="category"
+                    class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-red-600"></select>
+          </div>
+          <div>
+            <label for="author" class="block text-sm font-medium mb-1.5">Penulis</label>
+            <input id="author" type="text" placeholder="Redaksi" maxlength="60"
+                   class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-transparent px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-red-600">
+          </div>
+        </div>
+
+        <!-- Gambar -->
+        <fieldset>
+          <legend class="block text-sm font-medium mb-1.5">Gambar Utama</legend>
+          <div class="flex gap-6 text-sm mb-3">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="imageMode" value="url" checked class="accent-red-600"> URL Gambar
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="imageMode" value="upload" class="accent-red-600"> Upload File
+            </label>
+          </div>
+          <div id="image-url-wrap">
+            <input id="image-url" type="url" placeholder="https://contoh.com/gambar.jpg"
+                   class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-transparent px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-red-600">
+          </div>
+          <div id="image-file-wrap" class="hidden">
+            <input id="image-file" type="file" accept="image/*"
+                   class="block w-full text-sm file:mr-4 file:rounded-lg file:border-0 file:bg-neutral-900 file:px-4 file:py-2 file:text-white dark:file:bg-white dark:file:text-neutral-900 cursor-pointer">
+            <p id="image-hint" class="mt-1 text-xs text-neutral-500">Gambar otomatis diperkecil agar hemat penyimpanan (maks. 5 MB).</p>
+          </div>
+          <img id="image-preview" alt="Pratinjau gambar" class="hidden mt-4 w-full aspect-video object-cover rounded-xl bg-neutral-100 dark:bg-neutral-900">
+        </fieldset>
+
+        <!-- Isi -->
+        <div>
+          <label for="content" class="block text-sm font-medium mb-1.5">Isi Berita <span class="text-red-600">*</span></label>
+          <textarea id="content" rows="12" placeholder="Tulis isi berita. Pisahkan paragraf dengan satu baris kosong."
+                    class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-transparent px-4 py-3 leading-relaxed focus:outline-none focus:ring-2 focus:ring-red-600"></textarea>
+          <p id="content-count" class="mt-1.5 text-xs text-neutral-500"></p>
+        </div>
+
+        <p id="form-msg" class="hidden text-sm"></p>
+
+        <div class="flex gap-3">
+          <button id="submit-btn" type="submit" class="rounded-lg bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 px-6 py-2.5 font-medium hover:opacity-90 transition">
+            Terbitkan Berita
+          </button>
+          <button id="reset-btn" type="reset" class="rounded-lg border border-neutral-300 dark:border-neutral-700 px-6 py-2.5 font-medium hover:bg-neutral-100 dark:hover:bg-neutral-900 transition">
+            Reset
+          </button>
+          <button id="cancel-edit" type="button" class="hidden rounded-lg border border-neutral-300 dark:border-neutral-700 px-6 py-2.5 font-medium hover:bg-neutral-100 dark:hover:bg-neutral-900 transition">
+            Batal Edit
+          </button>
+        </div>
+      </form>
+
+      <!-- Kelola berita -->
+      <div class="mt-16">
+        <h2 class="font-serif text-2xl font-bold mb-4">Kelola Berita (<span id="count">0</span>)</h2>
+        <ul id="manage-list" class="divide-y divide-neutral-200 dark:divide-neutral-800"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-neutral-200 dark:border-neutral-800">
+    <div class="max-w-3xl mx-auto px-4 py-6 text-sm text-neutral-500">
+      <a href="index.html" class="hover:text-neutral-900 dark:hover:text-neutral-100 transition">&larr; Kembali ke beranda</a>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

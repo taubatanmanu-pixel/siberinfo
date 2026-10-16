@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Siberinfo - portal berita minimalis dengan informasi terkini, mudah dibaca, dan nyaman dibagikan.">
+  <meta name="keywords" content="berita, news, portal berita, berita terkini, berita Indonesia, teknologi, ekonomi, politik, olahraga">
+  <meta name="author" content="Siberinfo">
+  
+  <!-- Security -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  
+  <title>Siberinfo - Portal Berita Minimalis</title>
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://siberinfo.com/">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://siberinfo.com/">
+  <meta property="og:title" content="Siberinfo - Portal Berita Minimalis">
+  <meta property="og:description" content="Portal berita minimalis dengan informasi terkini, mudah dibaca, dan nyaman dibagikan.">
+  <meta property="og:image" content="https://siberinfo.com/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Siberinfo">
+  <meta property="og:locale" content="id_ID">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://siberinfo.com/">
+  <meta name="twitter:title" content="Siberinfo - Portal Berita Minimalis">
+  <meta name="twitter:description" content="Portal berita minimalis dengan informasi terkini, mudah dibaca, dan nyaman dibagikan.">
+  <meta name="twitter:image" content="https://siberinfo.com/og-image.jpg">
+  <meta name="twitter:creator" content="@siberinfo">
+  <meta name="twitter:site" content="@siberinfo">
+  
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' font-family='Georgia,serif' font-weight='900'%3ES%3C/text%3E%3Ccircle cx='82' cy='88' r='10' fill='%23dc2626'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS (lokal, hasil compile dari input.css; lihat README di tailwind.config.js) -->
+  <link rel="stylesheet" href="tailwind.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen flex flex-col bg-white text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100 font-sans antialiased">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 border-b border-neutral-200 dark:border-neutral-800 bg-white/85 dark:bg-neutral-950/85 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="#/" class="font-serif text-2xl font-black tracking-tight focus-ring">
+        Siberinfo<span class="text-red-600">.</span>
+      </a>
+      <nav id="main-nav" class="nav-menu hidden md:flex items-center gap-5 text-sm font-medium" aria-label="Navigasi utama">
+        <a href="#/" data-nav="" class="nav-link">Beranda</a>
+        <a href="#/kategori" data-nav="kategori" class="nav-link">Kategori</a>
+        <a href="#/tentang" data-nav="tentang" class="nav-link">Tentang Kita</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <!-- Dark Mode Toggle -->
+        <button id="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode"
+                class="inline-flex h-10 w-10 items-center justify-center rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
+          <svg id="theme-icon-light" class="hidden dark:block" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <svg id="theme-icon-dark" class="block dark:hidden" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+        <a href="#/cari" aria-label="Cari berita" title="Cari berita"
+           class="inline-flex h-10 w-10 items-center justify-center rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-900 transition">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+          </svg>
+        </a>
+        <button id="menu-btn" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="main-nav"
+                class="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-900 transition">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Progres membaca (hanya tampil di halaman artikel) -->
+  <div id="read-progress" aria-hidden="true"></div>
+
+  <!-- Konten dinamis -->
+  <main id="app" class="flex-1 w-full max-w-6xl mx-auto px-4 py-10"></main>
+
+  <!-- Footer -->
+  <footer class="border-t border-neutral-200 dark:border-neutral-800 mt-auto">
+    <div class="max-w-6xl mx-auto px-4 py-20">
+      <!-- Main Footer Content -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 pb-12">
+        
+        <!-- Brand Section - Takes more space -->
+        <div class="lg:col-span-5">
+          <a href="#/" class="font-serif text-3xl font-black tracking-tight inline-block mb-4 hover:opacity-80 transition">
+            Siberinfo<span class="text-red-600">.</span>
+          </a>
+          <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6 max-w-sm">
+            Portal berita minimalis dengan informasi terkini, mudah dibaca, dan nyaman dibagikan.
+          </p>
+          
+          <!-- Social Media -->
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-500 mb-3">Ikuti Kami</p>
+            <div class="flex gap-2">
+              <a href="https://facebook.com/siberinfo" target="_blank" rel="noopener noreferrer" 
+                 aria-label="Facebook"
+                 class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-neutral-200 dark:bg-neutral-800 hover:bg-red-600 hover:text-white dark:hover:bg-red-600 transition-all duration-200">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </a>
+              <a href="https://twitter.com/siberinfo" target="_blank" rel="noopener noreferrer"
+                 aria-label="Twitter/X"
+                 class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-neutral-200 dark:bg-neutral-800 hover:bg-red-600 hover:text-white dark:hover:bg-red-600 transition-all duration-200">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </a>
+              <a href="https://instagram.com/siberinfo" target="_blank" rel="noopener noreferrer"
+                 aria-label="Instagram"
+                 class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-neutral-200 dark:bg-neutral-800 hover:bg-red-600 hover:text-white dark:hover:bg-red-600 transition-all duration-200">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+              </a>
+              <a href="https://youtube.com/@siberinfo" target="_blank" rel="noopener noreferrer"
+                 aria-label="YouTube"
+                 class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-neutral-200 dark:bg-neutral-800 hover:bg-red-600 hover:text-white dark:hover:bg-red-600 transition-all duration-200">
+                <svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Links Sections -->
+        <div class="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8">
+          
+          <!-- Navigasi -->
+          <div>
+            <h3 class="text-xs font-semibold uppercase tracking-wide text-neutral-900 dark:text-neutral-100 mb-4">Navigasi</h3>
+            <ul class="space-y-3">
+              <li><a href="#/" class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-red-600 dark:hover:text-red-500 transition">Beranda</a></li>
+              <li><a href="#/kategori" class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-red-600 dark:hover:text-red-500 transition">Kategori</a></li>
+              <li><a href="#/tentang" class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-red-600 dark:hover:text-red-500 transition">Tentang Kita</a></li>
+              <li><a href="#/cari" class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-red-600 dark:hover:text-red-500 transition">Cari Berita</a></li>
+            </ul>
+          </div>
+
+          <!-- Legal -->
+          <div>
+            <h3 class="text-xs font-semibold uppercase tracking-wide text-neutral-900 dark:text-neutral-100 mb-4">Legal</h3>
+            <ul class="space-y-3">
+              <li><a href="#/privacy-policy" class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-red-600 dark:hover:text-red-500 transition">Kebijakan Privasi</a></li>
+              <li><a href="#/terms-of-service" class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-red-600 dark:hover:text-red-500 transition">Syarat & Ketentuan</a></li>
+              <li><a href="#/sitemap" class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-red-600 dark:hover:text-red-500 transition">Peta Situs</a></li>
+            </ul>
+          </div>
+
+          <!-- Lainnya -->
+          <div>
+            <h3 class="text-xs font-semibold uppercase tracking-wide text-neutral-900 dark:text-neutral-100 mb-4">Lainnya</h3>
+            <ul class="space-y-3">
+              <li><a href="admin.html" class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-red-600 dark:hover:text-red-500 transition">Login Admin</a></li>
+              <li><a href="#/kontak" class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-red-600 dark:hover:text-red-500 transition">Hubungi Kami</a></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="pt-20 border-t border-neutral-200 dark:border-neutral-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-neutral-500 dark:text-neutral-500">
+        <p>&copy; <span id="year"></span> Siberinfo. Hak cipta dilindungi.</p>
+        <p>Dibuat untuk pembaca Indonesia</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 rounded-full bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-sm pl-5 pr-3 py-2.5 shadow-lg opacity-0 pointer-events-none transition-opacity duration-300 flex items-center gap-3" role="status" aria-live="polite">
+    <span id="toast-message"></span>
+    <button id="toast-close" type="button" aria-label="Tutup notifikasi" class="inline-flex items-center justify-center w-5 h-5 rounded-full hover:bg-white/20 dark:hover:bg-black/20 transition-colors">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Tombol kembali ke atas -->
+  <button id="to-top" type="button" aria-label="Kembali ke atas" title="Kembali ke atas"
+          class="to-top fixed bottom-6 right-6 z-40 inline-flex h-11 w-11 items-center justify-center rounded-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 shadow-lg">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+  </button>
+
+  <!-- Modal petunjuk Instagram -->
+  <div id="ig-modal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/50 p-4" role="dialog" aria-modal="true" aria-labelledby="ig-title">
+    <div class="w-full max-w-md rounded-2xl bg-white dark:bg-neutral-900 p-6 shadow-xl page-enter">
+      <h3 id="ig-title" class="font-serif text-xl font-bold">Bagikan ke Instagram</h3>
+      <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+        Instagram belum menyediakan tautan berbagi langsung dari web. Ikuti langkah berikut:
+      </p>
+      <ol class="mt-4 list-decimal pl-5 space-y-2 text-sm">
+        <li>Klik <strong>Salin Tautan</strong> di bawah.</li>
+        <li>Buka aplikasi Instagram, lalu pilih <strong>Story</strong> atau <strong>Post</strong> baru.</li>
+        <li>Story: tambahkan stiker <strong>Link</strong> dan tempel tautan. Post: tempel tautan di caption.</li>
+      </ol>
+      <div class="mt-6 flex justify-end gap-3">
+        <button type="button" data-close-modal class="rounded-lg border border-neutral-300 dark:border-neutral-700 px-4 py-2 text-sm font-medium hover:bg-neutral-100 dark:hover:bg-neutral-800 transition">Tutup</button>
+        <button type="button" data-copy-current class="rounded-lg bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 px-4 py-2 text-sm font-medium hover:opacity-90 transition">Salin Tautan</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="supabase-config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

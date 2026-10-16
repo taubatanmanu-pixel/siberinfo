@@ -1,5 +1,10 @@
-# Object file
-*.o
+# Ignore PHP API folder (migrated to Supabase)
+api/
 
-# Ada Library Information
-*.ali
+# Ignore uploaded images folder (stored in Supabase Storage)
+uploads/
+
+# Ignore temporary/local development files
+*.log
+.DS_Store
+Thumbs.db
