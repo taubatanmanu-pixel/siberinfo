@@ -67,7 +67,8 @@ async function api(action, body) {
       const { error } = await sb.from('articles').update(cleanData).eq('id', id);
       if (error) throw error;
     } else {
-      const { error } = await sb.from('articles').insert({ ...cleanData, id: Math.random().toString(36).substr(2, 9) });
+      // Jangan sertakan 'id' biarkan Supabase generate otomatis (uuid)
+      const { error } = await sb.from('articles').insert(cleanData);
       if (error) throw error;
     }
     return { ok: true };
