@@ -280,7 +280,7 @@ const imgSrc = (a) => safeUrl(a.image) || placeholderImg(a.id);
 
 const excerpt = (text, len = 140) => {
   const t = text.replace(/\s+/g, ' ').trim();
-  return t.length > len ? t.slice(0, len).trimEnd() + 'â€¦' : t;
+  return t.length > len ? t.slice(0, len).trimEnd() + '…' : t;
 };
 
 /* ---------- Komponen ---------- */
