@@ -539,11 +539,10 @@ function pageTentang() {
 
   return `
     <article class="max-w-2xl mx-auto page-enter">
-      <p class="text-xs font-semibold uppercase tracking-wider text-red-600">Tentang Kita</p>
-      <h1 class="mt-1 font-serif text-4xl md:text-5xl font-black leading-tight">Siberinfo</h1>
+      <p class="text-xs font-semibold uppercase tracking-wider text-red-600">Tentang Kami</p>
+      <h1 class="mt-1 font-serif text-4xl md:text-5xl font-black leading-tight">Siberinfo<span class="text-red-600">.</span></h1>
       <p class="mt-6 font-serif text-lg leading-8 text-neutral-700 dark:text-neutral-300">
-        Siberinfo adalah portal berita digital minimalis yang menyajikan informasi terkini, akurat, dan mudah dibaca.
-        Kami percaya bahwa berita yang baik harus dapat dinikmati tanpa gangguan.
+        Portal Berita Online yang Mengabarkan Informasi A1. Menyajikan Berita Tanpa Unsur Hoax, Sara, dan Ujaran Kebencian.
       </p>
 
       ${block('Visi', '<p class="leading-relaxed text-neutral-600 dark:text-neutral-400">Menjadi portal berita pilihan masyarakat digital yang mengutamakan kejelasan, kepercayaan, dan kenyamanan membaca.</p>')}
@@ -688,9 +687,9 @@ function pageCari(query) {
 function pageNotFound() {
   return `
     <div class="py-24 text-center page-enter">
-      <p class="font-serif text-6xl font-black">404</p>
-      <p class="mt-3 text-neutral-500">Halaman atau berita yang Anda cari tidak ditemukan.</p>
-      <a href="#/" class="inline-block mt-6 rounded-lg bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 px-5 py-2.5 text-sm font-medium">Kembali ke beranda</a>
+      <p class="font-serif text-6xl md:text-8xl font-black tracking-tight">SIBERINFO</p>
+      <p class="mt-4 text-base md:text-xl text-neutral-400 dark:text-neutral-500 font-medium">MEDIATAMA</p>
+      <a href="#/" class="inline-block mt-10 rounded-lg bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 px-8 py-4 text-base font-medium hover:opacity-90 transition">Kembali ke beranda</a>
     </div>`;
 }
 
@@ -837,7 +836,7 @@ if (toTopBtn) {
 function titleFor(section, param) {
   if (!section) return 'Siberinfo - Portal Berita Minimalis';
   if (section === 'kategori') return `${param ? catName(param) : 'Kategori'} - Siberinfo`;
-  if (section === 'tentang') return 'Tentang Kita - Siberinfo';
+  if (section === 'tentang') return 'Tentang Kami - Siberinfo';
   if (section === 'cari') return 'Cari Berita - Siberinfo';
   if (section === 'berita' && param) {
     const a = getArticles().find((x) => x.id === param);
