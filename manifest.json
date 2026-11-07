@@ -1,0 +1,28 @@
+{
+  "name": "Siberinfo - Portal Berita Minimalis",
+  "short_name": "Siberinfo",
+  "description": "Portal berita minimalis dengan informasi terkini, mudah dibaca, dan nyaman dibagikan.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#dc2626",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' font-family='Georgia,serif' font-weight='900'%3ES%3C/text%3E%3Ccircle cx='82' cy='88' r='10' fill='%23dc2626'/%3E%3C/svg%3E",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["news", "information"],
+  "lang": "id",
+  "dir": "ltr",
+  "prefer_related_applications": false
+}

@@ -1,0 +1,10 @@
+# Ignore PHP API folder (migrated to Supabase)
+api/
+
+# Ignore uploaded images folder (stored in Supabase Storage)
+uploads/
+
+# Ignore temporary/local development files
+*.log
+.DS_Store
+Thumbs.db

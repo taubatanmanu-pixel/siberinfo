@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Panel admin tidak perlu diindeks
+Disallow: /admin.html
+
+# Jangan indeks halaman-halaman ini
+Disallow: /#/cari
+Disallow: /#/kontak
+Disallow: /#/tentang
+Disallow: /#/privacy-policy
+Disallow: /#/terms-of-service
+
+# Sitemap
+Sitemap: https://siberinfo.id/sitemap.xml
+
+# Crawl-delay (opsional, untuk mengurangi beban server)
+Crawl-delay: 10

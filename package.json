@@ -1,0 +1,16 @@
+{
+  "name": "siberinfo-sitemap-generator",
+  "version": "1.0.0",
+  "description": "Dynamic sitemap.xml generator for Siberinfo",
+  "main": "generate-sitemap.js",
+  "scripts": {
+    "generate": "node generate-sitemap.js",
+    "generate:prod": "SUPABASE_ANON_KEY=$SUPABASE_ANON_KEY node generate-sitemap.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "keywords": ["sitemap", "seo", "siberinfo", "supabase"],
+  "author": "Siberinfo",
+  "license": "MIT"
+}
