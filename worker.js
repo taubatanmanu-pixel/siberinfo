@@ -6,10 +6,29 @@ const SUPABASE_URL = 'https://nabxsudnyefznejzmaiu.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_E2CgsuqhLsrT6pjPIyz_Ng_8XTFzoh9';
 const ORIGIN = 'https://taubatanmanu-pixel.github.io/siberinfo';
 
+// Ekstensi file asset: selalu diambil dari root origin, apa pun path halamannya.
+// (Pada URL artikel /berita/<slug>, CSS relatif diminta sebagai /berita/tailwind.css
+//  — kalau diteruskan apa adanya, GitHub Pages mengembalikan HTML homepage dan
+//  browser menolak stylesheet-nya. Maka diekstrak nama filenya saja.)
+const ASSET_RE = /\/([^/?#]+\.(?:css|js|mjs|png|jpe?g|webp|gif|svg|json|ico|txt|xml|woff2?|ttf))$/i;
+
 async function handleRequest(request) {
   const url = new URL(request.url);
   const ua = (request.headers.get('User-Agent') || '').toLowerCase();
   const isBot = /whatsapp|telegram|facebookexternalhit|twitterbot|linkedinbot|pinterest|slack|discord|line-poker|skypeuripreview/.test(ua);
+
+  // ─── 1. STATIC ASSET ───
+  // Contoh: /berita/tailwind.css -> ORIGIN/tailwind.css
+  const assetMatch = url.pathname.match(ASSET_RE);
+  if (assetMatch) {
+    const assetUrl = ORIGIN + '/' + assetMatch[1] + url.search;
+    return fetch(assetUrl);
+  }
+
+  // ─── 2. SITEMAP / ROBOTS / MANIFEST dari root ───
+  if (url.pathname === '/sitemap.xml' || url.pathname === '/robots.txt' || url.pathname === '/manifest.json') {
+    return fetch(ORIGIN + url.pathname);
+  }
 
   // Ambil kunci artikel: /berita/<slug>  atau  ?slug=  atau  ?id= (lama)
   const pathMatch = url.pathname.match(/^\/berita\/([^/]+)\/?$/);
